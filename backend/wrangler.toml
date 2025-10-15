@@ -1,6 +1,9 @@
 name = "backend"
-compatibility_date = "2025-12-01"
+main = "src/index.ts"
+compatibility_date = "2025-10-15"
 
 [vars]
-DATABASE_URL="prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RfaWQiOjEsInNlY3VyZV9rZXkiOiJza19TWGRvY3lxaVE3a0dKSGhEcTVBTFMiLCJhcGlfa2V5IjoiMDFLN0s0N0pCRzRXR0FOWjQ3UUYxMzczQlAiLCJ0ZW5hbnRfaWQiOiJiYjQ0ZWM1NWQ4ZDE3ODk2NGZiYTYwODhiOGFkOWU3ZjI4M2Q0MjkzOTVmOTM2ZWEyMmM0ZWY1ODdkMWVmZmU2IiwiaW50ZXJuYWxfc2VjcmV0IjoiNWI5NzM1MDUtNDExOS00MmRmLWJkMDktYmM1NWIwNGUzNGMyIn0.aR8ILDtUlRO8-DoKKNliWlnrLai-KvpSMUYhrAmMn6c"
-JWT_SECRET="Rishabh1234"
+DATABASE_URL = "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RfaWQiOjEsInNlY3VyZV9rZXkiOiJza19aeU5Rb3Zfa2toRWRDT2I2d2dWT0EiLCJhcGlfa2V5IjoiMDFLN00xQksyRzZLNlYxNFFTSDJSR1MyR0MiLCJ0ZW5hbnRfaWQiOiJiYjQ0ZWM1NWQ4ZDE3ODk2NGZiYTYwODhiOGFkOWU3ZjI4M2Q0MjkzOTVmOTM2ZWEyMmM0ZWY1ODdkMWVmZmU2IiwiaW50ZXJuYWxfc2VjcmV0IjoiNWI5NzM1MDUtNDExOS00MmRmLWJkMDktYmM1NWIwNGUzNGMyIn0.23VIq8BSjBjGgMJHArDUjfkaj3amaGIIpImzLKZ8MDw"
+
+JWT_SECRET = "Rishabh1234"
+DIRECT_DATABASE_URL = "postgresql://neondb_owner:npg_N7uIZ3lCPKsR@ep-late-frog-ad0xzb2i-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"

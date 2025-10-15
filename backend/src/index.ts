@@ -42,6 +42,8 @@ app.post('/api/v1/signup', async (c) => {
     const jwt = await sign({
       userid: user.id,
     }, c.env.JWT_SECRET);
+
+    return c.json({jwt});
   }
 
   catch(err) {
