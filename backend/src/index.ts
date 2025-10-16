@@ -12,80 +12,50 @@ const app = new Hono<{
 
 app.post('/api/v1/signup', async (c) => {
 
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env?.DATABASE_URL,
-  }).$extends(withAccelerate());
+	const prisma = new PrismaClient({
+		datasourceUrl: c.env?.DATABASE_URL	,
+	}).$extends(withAccelerate());
 
-  const body = await c.req.json();
-  
-  try {
+	const body = await c.req.json();
+	// try {
+		const user = await prisma.user.create({
+			data: {
+				email: body.email,
+				password: body.password
+			}
+		});
 
-    const user_exist = await prisma.user.findUnique({
-      where: {
-        email: body.email,
-      }
-    })
-
-    if(user_exist) {
-      return c.json({
-        message: "User already exists",
-      })
-    }
-
-    const user = await prisma.user.create({
-      data: {
-        email: body.email,
-        password: body.password,
-      }
-    });
-    
-    const jwt = await sign({
-      userid: user.id,
-    }, c.env.JWT_SECRET);
-
-    return c.json({jwt});
-  }
-
-  catch(err) {
-    console.log("Error occured while signing up ." + err);
-  }
+		const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
+		return c.json({ jwt });
+// 	} 
+//   catch(e) {
+// 		c.status(403);
+// 		return c.json({ error: "error while signing up" });
+// 	}
 })
 
 
 app.post('/api/v1/signin', async (c) => {
 
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env?.DATABASE_URL,
-  }).$extends(withAccelerate());
+	const prisma = new PrismaClient({
+		datasourceUrl: c.env?.DATABASE_URL	,
+	}).$extends(withAccelerate());
 
-  const body = await c.req.json();
+	const body = await c.req.json();
+	const user = await prisma.user.findUnique({
+		where: {
+			email: body.email
+		}
+	});
 
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        email: body.email,
-      }
-    });
-  
-    if(!user) {
-      c.status(403);
-      return c.json({
-        error: "User not found",
-      });
-    }
+	if (!user) {
+		c.status(403);
+		return c.json({ error: "user not found" });
+	}
 
-    const jwt = await sign({
-      id: user.id,
-    }, c.env.JWT_SECRET)
-
-    return c.json({jwt});
-  }
-  catch(err) {
-    return c.json({
-      error: "Error while performing signin",
-    })
-  }
-});
+	const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
+	return c.json({ jwt });
+})
 
 app.post('/api/v1/blog', async (c) => {
 
