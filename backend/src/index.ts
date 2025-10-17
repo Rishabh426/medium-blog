@@ -1,72 +1,59 @@
 import { Hono } from 'hono'
-import { PrismaClient } from "@prisma/client/edge"
-import { withAccelerate } from "@prisma/extension-accelerate"
+import { PrismaClient } from '@prisma/client/edge'
+import { withAccelerate } from '@prisma/extension-accelerate'
 import { sign } from 'hono/jwt'
+import { env } from 'hono/adapter'
 
-const app = new Hono<{
-  Bindings: {
-    DATABASE_URL: string,
-    JWT_SECRET: string,
-  }
-}>();
+const app = new Hono()
+
+app.get('/', async (c) => {
+  const { DATABASE_URL, JWT_SECRET } = env<{ DATABASE_URL: string; JWT_SECRET: string }>(c);
+  console.log(DATABASE_URL);
+  return c.text('hi')
+})
 
 app.post('/api/v1/signup', async (c) => {
+  const { DATABASE_URL, JWT_SECRET } = env<{ DATABASE_URL: string; JWT_SECRET: string }>(c)
 
-	const prisma = new PrismaClient({
-		datasourceUrl: c.env?.DATABASE_URL	,
-	}).$extends(withAccelerate());
+  const prisma = new PrismaClient({
+    datasourceUrl: DATABASE_URL,
+  }).$extends(withAccelerate())
 
-	const body = await c.req.json();
-	// try {
-		const user = await prisma.user.create({
-			data: {
-				email: body.email,
-				password: body.password
-			}
-		});
+  const body = await c.req.json()
 
-		const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
-		return c.json({ jwt });
-// 	} 
-//   catch(e) {
-// 		c.status(403);
-// 		return c.json({ error: "error while signing up" });
-// 	}
+  const user = await prisma.user.create({
+    data: {
+      email: body.email,
+      password: body.password,
+    },
+  })
+
+  const jwt = await sign({ id: user.id }, JWT_SECRET)
+  return c.json({ jwt })
 })
-
 
 app.post('/api/v1/signin', async (c) => {
+  const { DATABASE_URL, JWT_SECRET } = env<{ DATABASE_URL: string; JWT_SECRET: string }>(c)
 
-	const prisma = new PrismaClient({
-		datasourceUrl: c.env?.DATABASE_URL	,
-	}).$extends(withAccelerate());
+  const prisma = new PrismaClient({
+    datasourceUrl: DATABASE_URL,
+  }).$extends(withAccelerate())
 
-	const body = await c.req.json();
-	const user = await prisma.user.findUnique({
-		where: {
-			email: body.email
-		}
-	});
+  const body = await c.req.json()
 
-	if (!user) {
-		c.status(403);
-		return c.json({ error: "user not found" });
-	}
+  const user = await prisma.user.findUnique({
+    where: {
+      email: body.email,
+    },
+  })
 
-	const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
-	return c.json({ jwt });
-})
+  if (!user) {
+    c.status(403)
+    return c.json({ error: 'user not found' })
+  }
 
-app.post('/api/v1/blog', async (c) => {
-
-})
-
-app.put('/api/v1/blog', async (c) => {
-
-})
-
-app.get('/api/v1/blog/:id', async (c) => {
-
+  const jwt = await sign({ id: user.id }, JWT_SECRET)
+  return c.json({ jwt })
 })
 
 export default app

@@ -9,7 +9,7 @@
   "dependencies": {
     "@prisma/client": "^6.17.1",
     "@prisma/extension-accelerate": "^2.0.2",
-    "hono": "^4.9.12",
+    "hono": "^4.10.0",
     "prisma": "^6.17.1"
   },
   "devDependencies": {
