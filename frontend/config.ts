@@ -1,0 +1,1 @@
+export const BACKEND_URL="https://backend.ronnie100-hld.workers.dev"

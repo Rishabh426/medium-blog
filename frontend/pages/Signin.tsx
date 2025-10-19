@@ -1,8 +1,16 @@
-export default function Signin() {
+import Quote from "../components/Quote"
+import Auth from "../components/Auth"
+
+export default function Signup() {
 
     return (
-        <div className="flex flex-col items-center justify-center text-2xl">
-            Login 
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+            <div>
+                <Auth type="signin"/>
+            </div>
+            <div>
+                <Quote />
+            </div>
         </div>
     )
 }

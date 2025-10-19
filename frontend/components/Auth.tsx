@@ -1,14 +1,33 @@
 
 import { useState, type ChangeEvent } from "react"
 import { SignupInput } from "@rishabh100x/medium-common"
+import { Link, useNavigate } from "react-router-dom"
+import { BACKEND_URL } from "../config"
+import axios from "axios"
 
-export default function AuthForm() {
+export default function AuthForm({ type }: { type : "signin" | "signup"}) {
+
+  const navigate = useNavigate();
   const [posts, setpost] = useState<SignupInput>({
     username: "",
     password: "",
     name: "",
   })
 
+  async function sendReq() {
+    
+    try {
+        const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signin" ? "signin" : "signup"}`, posts);
+        const jwt = response.data;
+        localStorage.setItem("token", jwt);
+        navigate("/blogs");
+    }
+    catch(err) {
+        console.log(err)
+        alert("Request failed");
+    }
+    
+  }
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-white px-4">
         {/* {JSON.stringify(posts)} */}
@@ -17,17 +36,17 @@ export default function AuthForm() {
           <h1 className="text-4xl font-bold text-black mb-2">Create an account</h1>
           <p className="text-gray-500">
             Already have an account?{" "}
-            <a href="/signin" className="text-black font-medium underline hover:no-underline">
-              Login
-            </a>
+            <Link className="pl-2 underline" to={type === "signin" ? "/signup" : "/signin"}>
+                {type === "signin" ? "Signup" : "Signin"}
+            </Link>
           </p>
         </div>
         <div className="space-y-6">
-          <LabelledInput
+          {type === "signup" ? <LabelledInput
             label="Name"
             placeholder="Enter your name"
             onChange={(e) => setpost({ ...posts, name: e.target.value })}
-          />
+          /> : null}
           <LabelledInput
             label="Email"
             placeholder="Enter your email"
@@ -38,6 +57,13 @@ export default function AuthForm() {
             placeholder="Enter your password"
             onChange={(e) => setpost({ ...posts, password: e.target.value })}
           />
+          <button
+            onClick={sendReq}
+            type="button"
+            className="w-full text-white bg-black hover:bg-gray-900 focus:ring-2 focus:ring-gray-400 font-medium rounded-lg text-base px-4 py-3 transition duration-200"
+          >
+            {type === "signin" ? "Sign in" : "Sign up"}
+          </button>
         </div>
       </div>
     </div>
