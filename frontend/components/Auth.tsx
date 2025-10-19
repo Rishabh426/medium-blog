@@ -20,6 +20,7 @@ export default function AuthForm({ type }: { type : "signin" | "signup"}) {
         const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signin" ? "signin" : "signup"}`, posts);
         const jwt = response.data;
         localStorage.setItem("token", jwt);
+        alert(`${type === "signin" ? "Signed in successfully" : "User created successfully"}`)
         navigate("/blogs");
     }
     catch(err) {
