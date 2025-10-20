@@ -1,12 +1,15 @@
+import { Link } from "react-router-dom"
 
 interface Blogcardprops {
     authorname: string,
     title: string,
     content: string,
     publishdate: string,
+    id: number,
 }
 
 export const Blogcard = ({
+    id,
     authorname,
     title,
     content,
@@ -14,27 +17,29 @@ export const Blogcard = ({
 } : Blogcardprops) => {
     
     return (
-        <div className="p-8 border-b border-slate-200 pb-4 w-screen max-w-screen-md cursor-pointer">
-            <div className="flex">
-                <Avatar name={authorname} />
-                <div className="font-extralight pl-2 text-sm flex justify-center flex-col">{authorname}</div>
-                <div className="flex justify-center flex-col pl-2">
-                    <Circle />
+        <Link to={`/blog/${id}`}>
+            <div className="p-8 border-b border-slate-200 pb-4 w-screen max-w-screen-md cursor-pointer">
+                <div className="flex">
+                    <Avatar name={authorname} />
+                    <div className="font-extralight pl-2 text-sm flex justify-center flex-col">{authorname}</div>
+                    <div className="flex justify-center flex-col pl-2">
+                        <Circle />
+                    </div>
+                    <div className="pl-2 font-thin text-slate-500 text-sm flex justify-center flex-col">
+                        {publishdate}
+                    </div>
                 </div>
-                <div className="pl-2 font-thin text-slate-500 text-sm flex justify-center flex-col">
-                    {publishdate}
+                <div className="text-xl font-semibold pt-2">
+                    {title}
+                </div>
+                <div className="text-md font-thin">
+                    {content.slice(0, 100) + "..."}
+                </div>
+                <div className="text-slate-500 text-sm font-thin pt-4">
+                    {`${Math.ceil(content.length / 100)} minute(s) read`}
                 </div>
             </div>
-            <div className="text-xl font-semibold pt-2">
-                {title}
-            </div>
-            <div className="text-md font-thin">
-                {content.slice(0, 100) + "..."}
-            </div>
-            <div className="text-slate-500 text-sm font-thin pt-4">
-                {`${Math.ceil(content.length / 100)} minute(s) read`}
-            </div>
-        </div>
+        </Link>
     )
 }
 
