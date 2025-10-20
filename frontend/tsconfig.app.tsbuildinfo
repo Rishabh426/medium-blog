@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/pages/blogs.tsx","./src/pages/publish.tsx","./src/pages/signin.tsx","./src/pages/signup.tsx","./components/appbar.tsx","./components/auth.tsx","./components/blog.tsx","./components/blogskeleton.tsx","./components/blogcard.tsx","./components/fullblog.tsx","./components/quote.tsx","./components/spinner.tsx"],"version":"5.9.3"}
