@@ -9,7 +9,7 @@ export default function AuthForm({ type }: { type : "signin" | "signup"}) {
 
   const navigate = useNavigate();
   const [posts, setpost] = useState<SignupInput>({
-    username: "",
+    email: "",
     password: "",
     name: "",
   })
@@ -51,7 +51,7 @@ export default function AuthForm({ type }: { type : "signin" | "signup"}) {
           <LabelledInput
             label="Email"
             placeholder="Enter your email"
-            onChange={(e) => setpost({ ...posts, username: e.target.value })}
+            onChange={(e) => setpost({ ...posts, email: e.target.value })}
           />
           <LabelledInput
             label="Password"

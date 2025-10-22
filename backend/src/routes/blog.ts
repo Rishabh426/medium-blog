@@ -16,7 +16,7 @@ export const blogRouter = new Hono<{
 
 blogRouter.post("/*", async (c, next) => {
 
-    const authHeader = c.req.header("Authorization") || "";
+    const authHeader = c.req.header("Authorization");
     if(!authHeader) {
         c.status(403);
         return c.json({
